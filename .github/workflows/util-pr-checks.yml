@@ -1,0 +1,28 @@
+name: 'PR Consistency Checks'
+on:
+  workflow_call:
+jobs:
+  pr-check:
+    name: "Running PR Checks"
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
+    steps:
+      - name: "PR Title Check"
+        uses: Slashgear/action-check-pr-title@3dc601455ee2e3f5bf1e8e7cf31261ebdd4e1756
+        with:
+          regexp: '^((AE|PP|S0|TMCS))-[0-9]{1,5}'
+
+      # Add the type of PR label, defined in ../labeler.yml
+      - name: "PR Type Label"
+        uses: actions/labeler@v4
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      # check the PR is labelled, used for releases GHA and semver
+      - name: "PR Label Check"
+        uses: yogevbd/enforce-label-action@a3c219da6b8fa73f6ba62b68ff09c469b3a1c024
+        with:
+          REQUIRED_LABELS_ANY: "patch,minor,major"
+          REQUIRED_LABELS_ANY_DESCRIPTION: "Select at least one label ['patch','minor','major']"

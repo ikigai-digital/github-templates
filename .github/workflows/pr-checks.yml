@@ -1,0 +1,7 @@
+name: 'PR Checks'
+on:
+  pull_request:
+    types: [opened, edited, synchronize, labeled, unlabeled]
+jobs:
+  pr-checks:
+    uses: ./.github/workflows/util-pr-checks.yml
