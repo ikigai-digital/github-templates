@@ -22,4 +22,4 @@ jobs:
         with:
           aws-region: "ap-southeast-1"
           role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsReadTest"
-          role-session-name: ${{env.GITHUB_ACTION }}-${{ env.GITHUB_SHA }}
+          role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
