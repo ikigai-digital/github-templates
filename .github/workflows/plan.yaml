@@ -17,6 +17,8 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v2
       - name: Assume the read only pipeline user role
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
