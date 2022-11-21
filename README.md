@@ -1,2 +1,2 @@
 # github-templates
-Hosting commonly used workflows
+Hosting commonly used workflows and examples
