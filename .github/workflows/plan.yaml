@@ -1,0 +1,44 @@
+name: "Plan Terraform"
+
+on:
+  push:
+    branches:
+      - '*'         # matches every branch that doesn't contain a '/'
+      - '*/*'       # matches every branch containing a single '/'
+      - '**'        # matches every branch
+      - '!main'     # excludes master
+
+jobs:
+
+  test-terraform:
+    name: "test-terraform"
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+      - name: "Setup Terraform"
+        uses: hashicorp/setup-terraform@v2
+      - name: Assume the read only pipeline user role
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-region: "ap-southeast-1"
+          role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsRead"
+          role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
+      - name: "Test AWS CLI"
+        run: aws s3 ls --region ap-southeast-1 --human-readable
+
+      - name: "Terraform init"
+        run: |
+          terraform init \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=terraform-state-locking" \
+            -backend-config="key=github-templates/main.tfstate" \
+            -backend-config="bucket=549838322545-state" \
+            -backend-config="region=ap-southeast-1"
+        working-directory: ./terraform
+      - name: "Terraform plan"
+        run: terraform plan -out plan.out
+        working-directory: ./terraform
