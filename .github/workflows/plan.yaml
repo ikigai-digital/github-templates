@@ -23,3 +23,12 @@ jobs:
           aws-region: "ap-southeast-1"
           role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsReadTest"
           role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
+      - name: Terraform init
+        run: |
+          terraform init \
+            -backend-config="encrypt=true" \
+            -backend-config="dynamodb_table=terraform-state-locking" \
+            -backend-config="key=${{ github.event.repository.name }}/${{ inputs.datadog_org }}/observability.tfstate" \
+            -backend-config="bucket=549838322545-state" \
+            -backend-config="region=ap-southeast-1"
+        working-directory: terraform
