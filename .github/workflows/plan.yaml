@@ -38,3 +38,6 @@ jobs:
             -backend-config="bucket=549838322545-state" \
             -backend-config="region=ap-southeast-1"
         working-directory: ./terraform
+      - name: Terraform plan
+        run: terraform plan -out plan.out
+        working-directory: ./terraform
