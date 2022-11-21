@@ -17,6 +17,8 @@ jobs:
       id-token: write
       contents: read
     steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
       - name: "Setup Terraform"
         uses: hashicorp/setup-terraform@v2
       - name: Assume the read only pipeline user role
@@ -25,12 +27,14 @@ jobs:
           aws-region: "ap-southeast-1"
           role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsReadTest"
           role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
+      - name: Location
+        run: pwd && ls
       - name: Terraform init
         run: |
           terraform init \
             -backend-config="encrypt=true" \
             -backend-config="dynamodb_table=terraform-state-locking" \
-            -backend-config="key=${{ github.event.repository.name }}/${{ inputs.datadog_org }}/observability.tfstate" \
+            -backend-config="key=github-templates/main.tfstate" \
             -backend-config="bucket=549838322545-state" \
             -backend-config="region=ap-southeast-1"
-        working-directory: terraform
+        working-directory: ./terraform
