@@ -28,7 +28,7 @@ jobs:
           role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsRead"
           role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
       - name: "Test AWS CLI"
-        run: aws s3 ls --region ap-southeast-1
+        run: aws s3 ls --region ap-southeast-1 --human-readable
 
       - name: "Terraform init"
         run: |
@@ -39,6 +39,6 @@ jobs:
             -backend-config="bucket=549838322545-state" \
             -backend-config="region=ap-southeast-1"
         working-directory: ./terraform
-      - name: Terraform plan
+      - name: "Terraform plan"
         run: terraform plan -out plan.out
         working-directory: ./terraform

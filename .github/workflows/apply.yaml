@@ -25,7 +25,7 @@ jobs:
           role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsRead"
           role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
       - name: "Test AWS CLI"
-        run: aws s3 ls --region ap-southeast-1
+        run: aws s3 ls --region ap-southeast-1 --human-readable
 
       - name: "Terraform init"
         run: |
