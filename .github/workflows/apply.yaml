@@ -1,4 +1,4 @@
-name: "Plan Terraform"
+name: "Apply Terraform"
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
 
   test-terraform:
-    name: "test-terraform"
+    name: "test-terraform-apply"
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -22,7 +22,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-region: "ap-southeast-1"
-          role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsRead"
+          role-to-assume: "arn:aws:iam::549838322545:role/GitHubActionsReadWrite"
           role-session-name: ${{env.GITHUB_ACTOR }}${{ env.GITHUB_SHA }}
       - name: "Test AWS CLI"
         run: aws s3 ls --region ap-southeast-1 --human-readable
