@@ -3,10 +3,7 @@ name: "Plan Terraform"
 on:
   push:
     branches:
-      - '*'         # matches every branch that doesn't contain a '/'
-      - '*/*'       # matches every branch containing a single '/'
-      - '**'        # matches every branch
-      - '!main'     # excludes master
+      - main
 
 jobs:
 
@@ -39,6 +36,12 @@ jobs:
             -backend-config="bucket=549838322545-state" \
             -backend-config="region=ap-southeast-1"
         working-directory: ./terraform
-      - name: Terraform plan
+      - name: "Terraform plan"
         run: terraform plan -out plan.out
+        working-directory: ./terraform
+      - name: "Terraform apply"
+        run: terraform apply plan.out
+        working-directory: ./terraform
+      - name: "Terraform destroy"
+        run: terraform destroy -auto-approve=true
         working-directory: ./terraform
