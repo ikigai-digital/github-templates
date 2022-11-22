@@ -1,0 +1,28 @@
+name: 'Build Docker Image and Publish to JFrog'
+on:
+  workflow_call:
+    inputs:
+      artifact-url:
+        required: true 
+        type: string
+      docker-repository:
+        required: true 
+        type: string
+      docker-tag:
+        required: true 
+        type: string
+jobs:
+  remove-artifact:
+    runs-on: ubuntu-latest
+i    steps:
+      - name: Download Build Output
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+      - name: Login to GitHub Package Registry
+        run: docker login --password ${{secrets.JFROG_AUTH_TOKEN}} -u ${{secrets.JFROG_USER}} ${{inputs.artifact-url}}
+      - name: Build the Docker image
+        run: docker build -t ${{inputs.artifact-url}}/${{inputs.docker-repository}}/${{inputs.docker-tag}} .
+      - name: Push the Docker image to the registry
+        run: docker push ${{inputs.artifact-url}}/${{inputs.docker-repository}}/${{inputs.docker-tag}} 
+
