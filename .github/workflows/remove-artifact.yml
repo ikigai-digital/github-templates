@@ -1,0 +1,17 @@
+name: 'Remove artifact'
+
+on:
+  workflow_call:
+    inputs:
+      artifact-name:
+        required: true 
+        type: string
+jobs:
+  remove-artifact:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete artifact
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: ${{inputs.artifact-name}}
+
