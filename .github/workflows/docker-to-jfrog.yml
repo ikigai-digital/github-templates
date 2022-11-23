@@ -14,7 +14,7 @@ on:
 jobs:
   docker-build-and-publish:
     runs-on: ubuntu-latest
-i    steps:
+    steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
         with:
