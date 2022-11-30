@@ -12,9 +12,6 @@ on:
       CONTAINER_NAME:
         required: true
         type: string
-      ECR_REGISTRY:
-        required: true
-        type: string
       ECR_REPOSITORY:
         required: true
         type: string
@@ -22,9 +19,6 @@ on:
         required: true
         type: string
       ECS_CLUSTER:
-        required: true
-        type: string
-      IMAGE_TAG:
         required: true
         type: string
 
@@ -52,7 +46,7 @@ jobs:
         with:
           task-definition: ${{ inputs.ECS_TASK_DEFINITION }}
           container-name: ${{ inputs.CONTAINER_NAME }}
-          image: ${{ inputs.ECR_REGISTRY }}/${{ inputs.ECR_REPOSITORY }}:${{ inputs.IMAGE_TAG }}
+          image: $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY }}:$IMAGE_TAG
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
