@@ -3,22 +3,22 @@ name: 'Push to ECR'
 on:
   workflow_call:
     inputs:
-      AWS_REGION:
+      aws-region:
         required: true
         type: string
-      ECS_TASK_DEFINITION:
+      ecs-task-definition:
         required: true
         type: string
-      CONTAINER_NAME:
+      container-name:
         required: true
         type: string
-      ECR_REPOSITORY:
+      ecr-repository:
         required: true
         type: string
-      ECS_SERVICE:
+      ecs-service:
         required: true
         type: string
-      ECS_CLUSTER:
+      ecs-cluster:
         required: true
         type: string
 
@@ -31,7 +31,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ inputs.AWS_REGION }}
+          aws-region: ${{ inputs.aws-region }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -42,16 +42,22 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.run_number }}
+          ECS_TASK_DEFINITION: ${{ inputs.ecs-task-definition }}
+          CONTAINER_NAME: ${{ inputs.container-name }}
+          ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ inputs.ECS_TASK_DEFINITION }}
-          container-name: ${{ inputs.CONTAINER_NAME }}
-          image: $ECR_REGISTRY/${{ inputs.ECR_REPOSITORY }}:$IMAGE_TAG
+          task-definition: $ECS_TASK_DEFINITION
+          container-name: $CONTAINER_NAME
+          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        env:
+          ECS_SERVICE: ${{ inputs.ecs-service }}
+          ECS_CLUSTER: ${{ inputs.ecs-cluster }}
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: ${{ inputs.ECS_SERVICE }}
-          cluster: ${{ inputs.ECS_CLUSTER }}
+          service: $ECS_SERVICE
+          cluster: $ECS_CLUSTER
           wait-for-service-stability: true
