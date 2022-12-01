@@ -13,8 +13,10 @@ on:
       ecr-repository:
         required: true
         type: string
-    outputs:
-      image-name: ${{ jobs.push-to-ecr.outputs.image }}
+    outputs: 
+      image-name:
+        description: The image created in build-image
+        value: ${{ jobs.push-to-ecr.outputs.image }}
 
 jobs:
 
