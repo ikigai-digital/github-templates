@@ -9,6 +9,7 @@ on:
         type: number
 jobs:
   gradle-build-test:
+    name: Gradle Build and Test 
     runs-on: ubuntu-latest
     permissions: write-all
     steps:

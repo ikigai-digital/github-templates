@@ -7,20 +7,16 @@ on:
         required: false 
         default: "build-files"
         type: string
-      AWS_REGION:
+      aws-region:
         required: true
         type: string
-      ECR_REGISTRY:
+      ecr-repository:
         required: true
         type: string
-      ECR_REPOSITORY:
-        required: true
-        type: string
-      IMAGE_TAG:
-        required: true
-        type: string
-    outputs:
-      image-name: ${{ steps.build-image.outputs.image }}
+    outputs: 
+      image-name:
+        description: The image created in build-image
+        value: ${{ jobs.push-to-ecr.outputs.image }}
 
 jobs:
 
@@ -30,7 +26,7 @@ jobs:
     environment: development
     outputs:
       image: ${{ steps.build-image.outputs.image }}
-
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
@@ -42,7 +38,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ inputs.AWS_REGION }}
+          aws-region: ${{ inputs.aws-region }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -52,12 +48,16 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{inputs.ecr-repository}}
           IMAGE_TAG: ${{ github.run_number }}
         run: |
-          imageName=${{inputs.ECR_REGISTRY}}/${{inputs.ECR_REPOSITORY}}:${{inputs.IMAGE_TAG}}
+          echo "ECR REG: $ECR_REGISTRY"
+          echo "ECR REPO: $ECR_REPOSITORY"
+          echo "IMAGE: $IMAGE_TAG"
+          imageName=$ECR_REGISTRY}}/$ECR_REPOSITORY:$IMAGE_TAG
           echo "Build and push $imageName"
-          docker build -t ${{inputs.ECR_REGISTRY}}/${{inputs.ECR_REPOSITORY}}:${{inputs.IMAGE_TAG}} .
-          docker push ${{inputs.ECR_REGISTRY}}/${{inputs.ECR_REPOSITORY}}:${{inputs.IMAGE_TAG}}
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "image=$imageName" >> $GITHUB_OUTPUT
 
 
