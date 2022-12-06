@@ -24,9 +24,9 @@ jobs:
     runs-on: ubuntu-latest
     name: Push to ECR
     environment: development
-#    permissions:
-#      id-token: write
-#      contents: write
+    permissions:
+      id-token: write
+      contents: read
     outputs:
       image: ${{ steps.build-image.outputs.image }}
 #    if: github.ref == 'refs/heads/main'
@@ -37,7 +37,7 @@ jobs:
           name: ${{ inputs.build-files}}
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
