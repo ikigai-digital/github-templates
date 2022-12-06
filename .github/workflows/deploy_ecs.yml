@@ -24,7 +24,7 @@ on:
 
 jobs:
   deploy_ecs:
-    if: github.ref == 'refs/heads/main'
+#    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials

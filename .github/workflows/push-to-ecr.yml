@@ -26,7 +26,7 @@ jobs:
     environment: development
     outputs:
       image: ${{ steps.build-image.outputs.image }}
-    if: github.ref == 'refs/heads/main'
+#    if: github.ref == 'refs/heads/main'
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
