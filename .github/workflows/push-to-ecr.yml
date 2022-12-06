@@ -25,7 +25,7 @@ jobs:
     name: Push to ECR
     environment: development
     permissions:
-      id-token: write
+      id-token: none
       contents: read
     outputs:
       image: ${{ steps.build-image.outputs.image }}
