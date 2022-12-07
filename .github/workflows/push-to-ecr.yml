@@ -24,9 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Push to ECR
     environment: development
-    permissions:
-      id-token: none
-      contents: read
     outputs:
       image: ${{ steps.build-image.outputs.image }}
 #    if: github.ref == 'refs/heads/main'
