@@ -47,6 +47,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Print donwlaoded artifact
+        run: ls -R
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         env:
@@ -57,7 +60,7 @@ jobs:
           ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ecs-task.json
+          task-definition: .aws/ecs-task.json
           container-name: $CONTAINER_NAME
           image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
