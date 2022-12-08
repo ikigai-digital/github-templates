@@ -47,7 +47,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Print donwlaoded artifact
+      - name: Print downloaded artifact
         run: ls -R
 
       - name: Fill in the new image ID in the Amazon ECS task definition
@@ -61,8 +61,8 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: .aws/ecs-task.json
-          container-name: $CONTAINER_NAME
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          container-name: ${{ inputs.container-name }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr-repository }}:${{ github.run_number }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
@@ -71,6 +71,6 @@ jobs:
           ECS_CLUSTER: ${{ inputs.ecs-cluster }}
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: $ECS_SERVICE
-          cluster: $ECS_CLUSTER
+          service: ${{ inputs.ecs-service }}
+          cluster: ${{ inputs.ecs-service }}
           wait-for-service-stability: true
