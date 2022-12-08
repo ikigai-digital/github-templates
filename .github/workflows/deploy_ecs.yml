@@ -57,7 +57,7 @@ jobs:
           ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: $ECS_TASK_DEFINITION
+          task-definition: ecs-task.json
           container-name: $CONTAINER_NAME
           image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
