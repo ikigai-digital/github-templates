@@ -9,6 +9,7 @@ on:
         type: number
       ecs-task-definition:
         required: true
+        type: string
 jobs:
   gradle-build-test:
     name: Gradle Build and Test 
