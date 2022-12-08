@@ -7,9 +7,6 @@ on:
         required: false 
         default: 70
         type: number
-      ecs-task-definition:
-        required: true
-        type: string
 jobs:
   gradle-build-test:
     name: Gradle Build and Test 
@@ -39,7 +36,7 @@ jobs:
             Dockerfile
             docker-compose.yml
             .dockerignore
-            ${{inputs.ecs-task-definition}}
+            .aws
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v3
