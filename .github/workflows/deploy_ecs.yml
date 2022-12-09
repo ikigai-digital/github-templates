@@ -31,7 +31,7 @@ on:
 
 jobs:
   deploy_ecs:
-    if: github.ref == 'refs/heads/AE-99'
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Download Build Output
