@@ -48,11 +48,8 @@ jobs:
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        env:
-          ECS_SERVICE: ${{ inputs.ecs-service }}
-          ECS_CLUSTER: ${{ inputs.ecs-cluster }}
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
-          service: $ECS_SERVICE
-          cluster: $ECS_CLUSTER
+          service: ${{ inputs.ecs-service }}
+          cluster: $${{ inputs.ecs-cluster }}
           wait-for-service-stability: true
