@@ -36,7 +36,6 @@ jobs:
             Dockerfile
             docker-compose.yml
             .dockerignore
-            .aws/
 
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v3
