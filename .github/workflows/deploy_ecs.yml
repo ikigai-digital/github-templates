@@ -39,6 +39,9 @@ jobs:
         with:
           name: ${{ inputs.deploy-files}}
 
+      - name: Display deploy files
+        run: ls -R
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
