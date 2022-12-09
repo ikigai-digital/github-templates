@@ -3,6 +3,10 @@ name: 'Push to ECR'
 on:
   workflow_call:
     inputs:
+      build-files:
+        required: false 
+        default: "build-files"
+        type: string
       aws-region:
         required: true
         type: string
@@ -27,6 +31,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - name: Download Build Output
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.build-files}}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
