@@ -3,9 +3,9 @@ name: 'Push to ECR'
 on:
   workflow_call:
     inputs:
-      deploy-files:
+      deploy-artifact-name:
         required: false
-        default: "deploy-files"
+        default: "deploy-artifact-name"
         type: string
       aws-region:
         required: true
@@ -37,10 +37,7 @@ jobs:
       - name: Download Build Output
         uses: actions/download-artifact@v3
         with:
-          name: ${{ inputs.deploy-files}}
-
-      - name: Display deploy files
-        run: ls -R
+          name: ${{ inputs.deploy-artifact-name}}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
