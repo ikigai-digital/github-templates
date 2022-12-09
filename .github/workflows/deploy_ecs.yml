@@ -5,7 +5,7 @@ on:
     inputs:
       deploy-artifact-name:
         required: false
-        default: "deploy-artifact-name"
+        default: "deploy-files"
         type: string
       aws-region:
         required: true
@@ -31,7 +31,7 @@ on:
 
 jobs:
   deploy_ecs:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/AE-99'
     runs-on: ubuntu-latest
     steps:
       - name: Download Build Output
