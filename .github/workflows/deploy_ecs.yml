@@ -40,17 +40,11 @@ jobs:
 
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.run_number }}
-          ECS_TASK_DEFINITION: ${{ inputs.ecs-task-definition }}
-          CONTAINER_NAME: ${{ inputs.container-name }}
-          ECR_REPOSITORY: ${{ inputs.ecr-repository }}
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: $ECS_TASK_DEFINITION
-          container-name: $CONTAINER_NAME
-          image: $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          task-definition: ${{ inputs.ecs-task-definition }}
+          container-name: ${{ inputs.container-name }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr-repository }}:${{ github.run_number }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
