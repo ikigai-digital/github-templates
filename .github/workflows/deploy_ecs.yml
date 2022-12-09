@@ -41,6 +41,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: List files
+        run: ls -R
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         env:
