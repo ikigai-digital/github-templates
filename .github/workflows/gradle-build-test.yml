@@ -33,6 +33,7 @@ jobs:
           name: build-files
           path: |
             build
+            .aws
             Dockerfile
             docker-compose.yml
             .dockerignore
