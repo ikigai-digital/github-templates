@@ -3,6 +3,10 @@ name: 'Push to ECR'
 on:
   workflow_call:
     inputs:
+      deploy-artifact-name:
+        required: false
+        default: "deploy-files"
+        type: string
       aws-region:
         required: true
         type: string
@@ -21,12 +25,20 @@ on:
       ecs-cluster:
         required: true
         type: string
+      image-tag:
+        required: true
+        type: string
 
 jobs:
   deploy_ecs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - name: Download Build Output
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.deploy-artifact-name}}
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -47,7 +59,7 @@ jobs:
         with:
           task-definition: ${{ inputs.ecs-task-definition }}
           container-name: ${{ inputs.container-name }}
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr-repository }}:${{ github.run_number }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr-repository }}:${{ inputs.image-tag }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
