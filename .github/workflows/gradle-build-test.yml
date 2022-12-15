@@ -19,6 +19,11 @@ jobs:
           distribution: adopt
           java-version: 11
 
+      - name: Export GHA secrets as ENV variable
+        uses: oNaiPs/secrets-to-env-action@v1
+        with:
+          secrets: ${{ toJSON(secrets) }}
+
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
