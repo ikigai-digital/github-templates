@@ -7,11 +7,26 @@ on:
         required: false 
         default: 70
         type: number
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      JFROG_MAVEN_URL:
+        required: true
+      JFROG_PASSWORD:
+        required: true
+      JFROG_USERNAME:
+        required: true
+
 jobs:
   gradle-build-test:
     name: Gradle Build and Test 
     runs-on: ubuntu-latest
     permissions: write-all
+    env:
+      JFROG_MAVEN_URL: ${{ secrets.JFROG_MAVEN_URL }}
+      JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
+      JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
