@@ -9,10 +9,13 @@ on:
         type: number
       jfrog-maven-url:
         required: false
+        type: string
       jfrog-password:
         required: false
+        type: string
       jfrog-username:
         required: false
+        type: string
 
 env:
   JFROG_MAVEN_URL: ${{ inputs.jfrog-maven-url }}
