@@ -7,20 +7,20 @@ on:
         required: false 
         default: 70
         type: number
-      jfrog-maven-url:
-        required: false
-        type: string
-      jfrog-password:
-        required: false
-        type: string
-      jfrog-username:
-        required: false
-        type: string
+#      jfrog-maven-url:
+#        required: false
+#        type: string
+#      jfrog-password:
+#        required: false
+#        type: string
+#      jfrog-username:
+#        required: false
+#        type: string
 
-env:
-  JFROG_MAVEN_URL: ${{ inputs.jfrog-maven-url }}
-  JFROG_PASSWORD: ${{ inputs.jfrog-password }}
-  JFROG_USERNAME: ${{ inputs.jfrog-username }}
+#env:
+#  JFROG_MAVEN_URL: ${{ inputs.jfrog-maven-url }}
+#  JFROG_PASSWORD: ${{ inputs.jfrog-password }}
+#  JFROG_USERNAME: ${{ inputs.jfrog-username }}
 
 jobs:
   gradle-build-test:
