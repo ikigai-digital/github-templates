@@ -33,7 +33,7 @@ jobs:
   deploy_ecs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
