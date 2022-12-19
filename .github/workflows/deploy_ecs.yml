@@ -28,12 +28,16 @@ on:
       image-tag:
         required: true
         type: string
+      timeout-minutes:
+        required: false
+        default: 20
+        type: number
 
 jobs:
   deploy_ecs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: ${{ inputs.timeout-minutes }}
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
