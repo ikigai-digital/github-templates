@@ -5,6 +5,7 @@ jobs:
   pr-check:
     name: "Running PR Checks"
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       checks: write
       contents: read
