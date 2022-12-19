@@ -10,6 +10,7 @@ jobs:
   test-terraform:
     name: "test-terraform-apply"
     runs-on: ubuntu-latest
+    timeout-minutes: 3
     permissions:
       id-token: write
       contents: read
