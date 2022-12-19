@@ -13,6 +13,10 @@ on:
       ecr-repository:
         required: true
         type: string
+      timeout-minutes:
+        required: false
+        default: 20
+        type: number
     outputs: 
       image-name:
         description: The image created in build-image
@@ -24,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Push to ECR
     environment: development
-    timeout-minutes: 20
+    timeout-minutes: ${{ inputs.timeout-minutes }}
     outputs:
       image: ${{ steps.build-image.outputs.image }}
     if: github.ref == 'refs/heads/main'
