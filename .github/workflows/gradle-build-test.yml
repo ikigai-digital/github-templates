@@ -11,6 +11,10 @@ on:
         required: false
         default: 30
         type: number
+      show-coverage-report:
+        required: false
+        default: true
+        type: boolean
 jobs:
   gradle-build-test:
     name: Gradle Build and Test 
@@ -60,6 +64,7 @@ jobs:
       - name: Publish Coverage Report
         id: jacoco_reporter
         uses: PavanMudigonda/jacoco-reporter@v4.6
+        if: ${{inputs.show-coverage-report}}
         with:
           coverage_results_path: 'build/reports/jacoco/test/jacocoTestReport.xml'
           coverage_report_name: Coverage
