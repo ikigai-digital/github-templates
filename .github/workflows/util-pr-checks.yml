@@ -14,7 +14,7 @@ jobs:
       - name: "PR Title Check"
         uses: Slashgear/action-check-pr-title@3dc601455ee2e3f5bf1e8e7cf31261ebdd4e1756
         with:
-          regexp: '^((AE|PP|S0|TMCS))-[0-9]{1,5}'
+          regexp: '^[A-Z]{1,4}-[0-9]{1,5}'
 
       # Add the type of PR label, defined in ../labeler.yml
       - name: "PR Type Label"
