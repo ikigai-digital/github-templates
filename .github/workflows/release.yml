@@ -13,6 +13,9 @@ jobs:
     if: github.event.pull_request.merged == true
     outputs:
       release-number: ${{ steps.tag_and_release.outputs.tag }}
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       # This will do a semver release based on patch,minor,major tags
