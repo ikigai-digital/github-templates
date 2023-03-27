@@ -28,7 +28,7 @@ jobs:
   test-release:
     needs: [release]
     timeout-minutes: 2
-    name: Tag and Release to github
+    name: Output Release Version
     runs-on: ubuntu-latest
     steps:
       - name: test release output
