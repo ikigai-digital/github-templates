@@ -1,0 +1,37 @@
+name: Release
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+
+jobs:
+  release:
+    timeout-minutes: 2
+    name: Tag and Release to github
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    outputs:
+      release-number: ${{ steps.tag_and_release.outputs.tag }}
+
+    steps:
+      # This will do a semver release based on patch,minor,major tags
+      - name: Tag and Release to GH
+        id: tag_and_release
+        uses: K-Phoen/semver-release-action@0b2fd5ab3d626bd66eb84e62b3eea8002f3d34cc
+        with:
+          release_branch: main
+          release_strategy: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test-release:
+    needs: [release]
+    timeout-minutes: 2
+    name: Tag and Release to github
+    runs-on: ubuntu-latest
+    steps:
+      - name: test release output
+        run: echo ${{needs.release.outputs.release-number}}
