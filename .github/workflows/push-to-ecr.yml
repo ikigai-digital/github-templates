@@ -35,7 +35,7 @@ jobs:
     timeout-minutes: ${{ inputs.timeout-minutes }}
     outputs:
       image: ${{ steps.build-image.outputs.image }}
-    if: github.ref == 'refs/heads/main' && !inputs.bypass-main-branch-check
+    if: github.ref == 'refs/heads/main' || inputs.bypass-main-branch-check
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
