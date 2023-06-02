@@ -17,6 +17,10 @@ on:
         required: false
         default: 20
         type: number
+      bypass-main-branch-check:
+        required: false
+        default: false
+        type: boolean
     outputs: 
       image-name:
         description: The image created in build-image
@@ -31,7 +35,7 @@ jobs:
     timeout-minutes: ${{ inputs.timeout-minutes }}
     outputs:
       image: ${{ steps.build-image.outputs.image }}
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && !inputs.bypass-main-branch-check
     steps:
       - name: Download Build Output
         uses: actions/download-artifact@v3
