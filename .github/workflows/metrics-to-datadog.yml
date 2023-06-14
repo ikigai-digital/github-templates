@@ -22,7 +22,7 @@ jobs:
       checks: read
       contents: read
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: int128/datadog-actions-metrics@d6765ffc8114e9d44cbfe53ac198df94486a0834
         with:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
