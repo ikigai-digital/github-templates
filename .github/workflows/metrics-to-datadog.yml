@@ -1,0 +1,24 @@
+on:
+  workflow_run:
+    workflows:
+      - '**'
+    types:
+      - completed
+  pull_request:
+    types:
+      - opened
+      - closed
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          datadog-site: "app.datadoghq.eu"
+          collect-job-metrics: true
+          collect-step-metrics: true
+          send-pull-request-labels: true
