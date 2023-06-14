@@ -1,32 +1,20 @@
 name: "Send Metrics to Datadog"
-
+# from https://github.com/int128/datadog-actions-metrics
 on:
-  workflow_run:
-    workflows:
-      - '**'
-    types:
-      - completed
   pull_request:
     types:
       - opened
       - closed
-      - edited
-      - labeled
 
 jobs:
   send:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
-      actions: read
-      checks: read
-      contents: read
+      pull-requests: read
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: int128/datadog-actions-metrics@7c2568abde6f7a203c830f39d2a3f0b6b8b36620
         with:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           datadog-site: "datadoghq.eu"
-          collect-job-metrics: true
-          collect-step-metrics: true
-          send-pull-request-labels: true
