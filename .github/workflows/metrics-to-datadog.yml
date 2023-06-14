@@ -1,4 +1,9 @@
 on:
+  workflow_run:
+    workflows:
+      - '**'
+    types:
+      - completed
   pull_request:
     types:
       - opened
