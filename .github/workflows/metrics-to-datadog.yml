@@ -13,3 +13,4 @@ jobs:
         with:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          datadog-site: "app.datadoghq.eu"
