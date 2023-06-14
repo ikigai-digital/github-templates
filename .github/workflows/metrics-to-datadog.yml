@@ -13,7 +13,7 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - uses: int128/datadog-actions-metrics@7c2568abde6f7a203c830f39d2a3f0b6b8b36620
+      - uses: int128/datadog-actions-metrics@e26cf98fccaf57bfb818f14f0d7324b9b98850f3
         with:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
