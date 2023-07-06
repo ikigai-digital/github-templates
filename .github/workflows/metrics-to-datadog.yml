@@ -1,11 +1,6 @@
 name: "Send Metrics to Datadog"
 
 on:
-  workflow_run:
-    workflows:
-      - '**'
-    types:
-      - completed
   pull_request:
     types:
       - opened
@@ -21,12 +16,10 @@ jobs:
       actions: read
       checks: read
       contents: read
+      id-token: write
     steps:
       - uses: mononokehime/datadog-actions-metrics@v1.1.0
         with:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           datadog-site: "datadoghq.eu"
-          collect-job-metrics: true
-          collect-step-metrics: true
-          send-pull-request-labels: true
