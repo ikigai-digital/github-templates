@@ -5,3 +5,7 @@ on:
 jobs:
   pr-checks:
     uses: ./.github/workflows/util-pr-checks.yml
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
