@@ -1,0 +1,13 @@
+name: 'Conventional Commits PR Title Check'
+on:
+  workflow_call:
+jobs:
+  pr-checks:
+    name: "Running PR Checks"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "PR Title Check"
+        uses: Slashgear/action-check-pr-title@3dc601455ee2e3f5bf1e8e7cf31261ebdd4e1756
+        with:
+          regexp: '^((feat|fix|chore|refactor|build|ci|test|docs|style|perf))\([A-Z]{1,4}-[0-9]{1,5}\):.*'
+
